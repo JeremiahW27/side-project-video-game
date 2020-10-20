@@ -10,30 +10,61 @@ public class main {
 		//System objects
 		Scanner in = new Scanner(System.in);
 		Random rand = new Random();
+		Slime slime = new Slime();
+		Goblin goblin = new Goblin();
+		Wolf wolf = new Wolf();
+		Bear bear = new Bear();
+		Troll troll = new Troll();
+		Minotaur minotaur = new Minotaur();
 		
 		//Game Variables
-		String[] enemies = {"slime", "goblin", "wolf", "giant spider", "troll", "minotaur"};
-		int maxMobHp = 75;
-		int maxMobAtt = 25;
+		Object[] enemies = {slime, goblin, wolf, bear, troll, minotaur};
 		
 		//Player Variables
 		int playerHp = 100;
-		int playerAtt = 50;
+		int playerAtt = 10;
 		int numHealthPots = 3;
 		int healthPotHealAmount = 20;
 		int healthPotDropChance = 40;
 		
 		boolean running = true;
 		
-		System.out.println("Welcome child to the wishing well.. You ask for heaven, we give you hell.");
+		System.out.println("Welcome child, to the wishing well.. You ask for heaven, we give you hell.");
 		
 		GAME:
 		while(running) {
 			System.out.println("_____________________________________________");
 			System.out.println();
 			
-			int enemyHp = rand.nextInt(maxMobHp);
-			String enemy = enemies[rand.nextInt(enemies.length - 1)];
+			Object enemyType = enemies[rand.nextInt(enemies.length - 1)];
+			String enemy = "";
+			int enemyHp = 0;
+			
+			if(enemyType.equals(slime)) {
+				enemy = "slime";
+				enemyHp = slime.getHp();
+			}
+			else if(enemyType.equals(goblin)) {
+				enemy = "goblin";
+				enemyHp = goblin.getHp();
+			}
+			else if(enemyType.equals(wolf)) {
+				enemy = "wolf";
+				enemyHp = wolf.getHp();
+			}
+			else if(enemyType.equals(bear)) {
+				enemy = "bear";
+				enemyHp = bear.getHp();
+			}
+			else if(enemyType.equals(troll)) {
+				enemy = "troll";
+				enemyHp = troll.getHp();
+			}
+			else if(enemyType.equals(minotaur)) {
+				enemy = "minotaur";
+				enemyHp = minotaur.getHp();
+			}
+			
 			System.out.println("\t# A " + enemy + " has appeared. #\n");
 			
 			while(enemyHp > 0) {
@@ -48,7 +79,25 @@ public class main {
 				String input = in.nextLine();
 				if(input.equals("1")) {
 					int damageDealt = rand.nextInt(playerAtt);
-					int damageTaken = rand.nextInt(maxMobAtt);
+					int damageTaken = 0;
+					if(enemy.equals("slime")) {
+						damageTaken = rand.nextInt(slime.getAtt());
+					}
+					else if(enemy.equals("goblin")) {
+						damageTaken = rand.nextInt(goblin.getAtt());
+					}
+					else if(enemy.equals("wolf")) {
+						damageTaken = rand.nextInt(wolf.getAtt());
+					}
+					else if(enemy.equals("bear")) {
+						damageTaken = rand.nextInt(bear.getAtt());
+					}
+					else if(enemy.equals("troll")) {
+						damageTaken = rand.nextInt(troll.getAtt());
+					}
+					else if(enemy.equals("minotaur")) {
+						damageTaken = rand.nextInt(minotaur.getAtt());
+					}
 					
 					enemyHp -= damageDealt;
 					playerHp -= damageTaken;
@@ -59,12 +108,15 @@ public class main {
 					
 					if(playerHp < 1) {
 						System.out.println("The world slowly starts to fade to black...");
-						System.out.println("...");
+						System.out.println("..................");
 						break;
 					}
 				}//End of #1 Attack
 				else if(input.equals("2")) {
-					if(numHealthPots > 0) {
+					if(playerHp >= 100) {
+						System.out.println("You already have full health.");
+					}
+					else if(numHealthPots > 0) {
 						playerHp += healthPotHealAmount;
 						numHealthPots --;
 						
@@ -103,6 +155,9 @@ public class main {
 				System.out.println(" # The " + enemy + " dropped a health potion!");
 				System.out.println(" # You now have " + numHealthPots + " health potion in your inventory!");
 			}
+			else {
+				System.out.println(" # The " + enemy + " did not drop anything.");
+			}
 			System.out.println("_____________________________________________");
 			System.out.println();
 			System.out.println("\tWhat would you like to do now?");
@@ -119,7 +174,7 @@ public class main {
 			if(input.equals("1")) {
 				System.out.println("You continue your adventure!");
 			}
-			else if(input.equals("3")) {
+			else if(input.equals("2")) {
 				System.out.println("You exit the dungeon successfully from you adventure!");
 				break;
 			}
@@ -128,6 +183,7 @@ public class main {
 
 		System.out.println();
 		System.out.println("_____________________________________________");
+		System.out.println();
 		System.out.println("Thanks for playing Jeremiah's Dungeon Game :D");
 		System.out.println("_____________________________________________");
 		
